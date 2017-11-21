@@ -8,17 +8,17 @@ export default class App extends Component {
     super(props);
     this.state = {
       inputValue: '',
-      supportVoice: 'webkitSpeechRecognition' in window,
+      supportVoice: 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window,
     };
   }
 
   componentDidMount() {
     if (this.state.supportVoice) {
-      const WebkitSpeechRecognition = window.webkitSpeechRecognition;
-      this.recognition = new WebkitSpeechRecognition();
+      const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+      this.recognition = new SpeechRecognition();
       this.recognition.continuous = true;
       this.recognition.interimResults = true;
-      this.recognition.lang = this.props.lang || 'cmn-Hans-CN';
+      this.recognition.lang = this.props.lang || 'en-US';
       this.recognition.onresult = (event) => {
         let interimTranscript = '';
         let finalTranscript = '';
